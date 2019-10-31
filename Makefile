@@ -9,7 +9,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	make -C srcs/libft
-	gcc $(FLAGS) $(OBJS) $(LIB_NAME) -o $@
+	gcc $(FLAGS) $(OBJS) $(LIB_NAME) -o $@ -ltermcap
 
 $(OBJS): %.o: %.c
 	gcc -c $(FLAGS) $< -o $@ -I./includes -I./srcs/libft

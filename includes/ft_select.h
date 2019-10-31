@@ -16,6 +16,8 @@
 
 # include "libft.h"
 # include <termios.h>
+# include <termcap.h>
 # include <unistd.h>
+# include <stdlib.h>
 
 #endif
