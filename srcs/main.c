@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:25:15 by hshawand          #+#    #+#             */
-/*   Updated: 2019/10/29 14:22:27 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/01 16:10:26 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ int		main(int argc, char **argv)
 
 	tty = STDOUT_FILENO;
 	if (!isatty(tty))
-	{
-		write(2, "Error: not a tty\n", 17);
-		return (-1);
-	}
+		return (ft_error_int("not a tty\n"));
 	term_init(argc, argv);
 	return (0);
 }
