@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:18:26 by hshawand          #+#    #+#             */
-/*   Updated: 2019/10/29 13:22:26 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/06 17:53:03 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@
 
 typedef struct	s_arg
 {
-	char		flags;
-	char		*value;
-}				t_arg;
+	char			flags;
+	char			*value;
+	unsigned short	coord_x;
+	unsigned short	coord_y;
+	size_t			len;
+}					t_arg;
 
 #endif
