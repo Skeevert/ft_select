@@ -12,28 +12,58 @@
 
 #include "ft_select.h"
 
-void	print_arg(int argc, char **argv)
-{
-	int		i;
-
-	i = 1;
-	while (i < argc)
-	{
-		ft_putendl(argv[i]);
-		i++;
-	}
-}
-
-int		printc(int c)
-{
-	return (write(1, &c, 1));
-}
-
 int		ft_error_int(char *msg)
 {
 	write(2, "Error: ", 7);
 	write(2, msg, strlen(msg));
 	return (-1);
+}
+
+int		ft_loop(t_arg *args)
+{
+	char	cmd[8];
+
+	ft_bzero(cmd, 8);
+	(void)args;
+	while (read(0, cmd, 3))
+	{
+		if 		(!strcmp(cmd, "\033[C")) 	ft_putendl("ARROW_RIGHT");
+		else if (!strcmp(cmd, "\033[A")) 	ft_putendl("ARROW_UP");
+		else if (!strcmp(cmd, "\033[D")) 	ft_putendl("ARROW_LEFT");
+		else if (!strcmp(cmd, "\033[B")) 	ft_putendl("ARROW_DOWN");
+		else if (!strcmp(cmd, "\033")) 		return (0);
+		else if (!strcmp(cmd, " ")) 		ft_putendl("SPACE");
+		ft_bzero(cmd, 8);
+	}
+	return (0);
+}
+
+int		init_arg(int argc, char **argv)
+{
+	int		i;
+	int		j;
+	t_arg	*args;
+	int		ret;
+
+	i = 1;
+	j = 0;
+	if (!(args = (t_arg *)malloc(sizeof(t_arg) * argc)))
+		return (ft_error_int("cannot allocate enough memory"));
+	while (i < argc)
+	{
+		args[j].value = argv[i];
+		i++;
+		j++;
+	}
+	args[j].value = 0;
+	ret = ft_loop(args);
+	free(args);
+	return(ret);
+}
+
+int		printc(int c)
+{
+	return (write(1, &c, 1));
 }
 
 void	term_reconfig()
@@ -52,7 +82,6 @@ int		term_init(int argc, char **argv)
 	char			*termtype;
 	char			term_buffer[2048];
 	int				success;
-	char			cache;
 	struct termios	save;
 
 	if (!(termtype = getenv("TERM")))
@@ -67,8 +96,7 @@ int		term_init(int argc, char **argv)
 	tputs(tgetstr("ti", NULL), 1, printc);
 	tputs(tgetstr("vi", NULL), 1, printc);
 	tputs(tgetstr("cl", NULL), 1, printc);
-	print_arg(argc, argv);
-	read(0, &cache, 1);
+	init_arg(argc, argv);
 	tputs(tgetstr("ve", NULL), 1, printc);
 	tputs(tgetstr("te", NULL), 1, printc);
 	tcsetattr(1, TCSANOW, &save);

@@ -20,4 +20,15 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+/*
+** 0x01 -- IS_SELECTED
+** 0x02 -- IS_UNDERLINED
+*/
+
+typedef struct	s_arg
+{
+	char		flags;
+	char		*value;
+}				t_arg;
+
 #endif
