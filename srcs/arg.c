@@ -78,8 +78,8 @@ int		init_arg(int argc, char **argv)
 	last->next = args;
 	args->prev = last;
 	args = args->next;
-	if (!ft_coord_calc(args)) /* TODO: Change! */
-		ft_args_print(args);
+	ft_coord_calc(args); /* TODO: Change! */
+//		ft_args_print(args);
 	ret = ft_loop(args);
 	lst_free(&args);
 	return(ret);

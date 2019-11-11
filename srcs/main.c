@@ -24,15 +24,17 @@ int		ft_loop(t_arg *args)
 	char	cmd[8];
 
 	ft_bzero(cmd, 8);
-	(void)args;
+	args->flags |= 0x02;
 	while (read(0, cmd, 3))
 	{
-/*		if 		(!strcmp(cmd, "\033[C")) 	ft_putendl("ARROW_RIGHT"); */
-/*		else if (!strcmp(cmd, "\033[A")) 	ft_putendl("ARROW_UP"); */
-/*		else if (!strcmp(cmd, "\033[D")) 	ft_putendl("ARROW_LEFT"); */
-/*		else if (!strcmp(cmd, "\033[B")) 	ft_putendl("ARROW_DOWN"); */
-		if (!strcmp(cmd, "\033")) 		return (0);
-/*		else if (!strcmp(cmd, " ")) 		ft_putendl("SPACE"); */
+		tputs(tgetstr("cl", NULL), 1, printc);
+		ft_args_print(args);
+		if 		(!strcmp(cmd, "\033[C")) 	keyctl(0, args);
+		else if (!strcmp(cmd, "\033[A")) 	keyctl(1, args);
+		else if (!strcmp(cmd, "\033[D")) 	keyctl(2, args);
+		else if (!strcmp(cmd, "\033[B")) 	keyctl(3, args);
+		else if (!strcmp(cmd, "\033")) 		return (0);
+		else if (!strcmp(cmd, " ")) 		keyctl(4, args);
 		ft_bzero(cmd, 8);
 	}
 	return (0);
@@ -72,7 +74,7 @@ int		term_init(int argc, char **argv)
 	term_reconfig();
 	tputs(tgetstr("ti", NULL), 1, printc);
 	tputs(tgetstr("vi", NULL), 1, printc);
-	tputs(tgetstr("cl", NULL), 1, printc);
+//	tputs(tgetstr("cl", NULL), 1, printc);
 	init_arg(argc, argv);
 	tputs(tgetstr("ve", NULL), 1, printc);
 	tputs(tgetstr("te", NULL), 1, printc);

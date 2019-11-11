@@ -41,9 +41,12 @@ int					ft_error_int(char *msg);
 int					printc(int c);
 int					ft_loop(t_arg *args);
 int					init_arg(int argc, char **argv);
+int					ft_args_print(t_arg *args);
 
 int					arg_add(t_arg	**alst, t_arg *new);
 t_arg				*arg_new(void);
 void				lst_free(t_arg	**start);
+
+void				keyctl(int key, t_arg *args);
 
 #endif
