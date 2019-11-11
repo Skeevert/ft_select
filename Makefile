@@ -1,4 +1,5 @@
-OBJS = srcs/main.o
+OBJS = srcs/main.o \
+	   srcs/arg.o
 
 FLAGS = -Wall -Wextra -Werror
 

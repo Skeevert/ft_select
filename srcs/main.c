@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:25:15 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/06 17:53:02 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/07 17:10:31 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,38 +27,15 @@ int		ft_loop(t_arg *args)
 	(void)args;
 	while (read(0, cmd, 3))
 	{
-		if 		(!strcmp(cmd, "\033[C")) 	ft_putendl("ARROW_RIGHT");
-		else if (!strcmp(cmd, "\033[A")) 	ft_putendl("ARROW_UP");
-		else if (!strcmp(cmd, "\033[D")) 	ft_putendl("ARROW_LEFT");
-		else if (!strcmp(cmd, "\033[B")) 	ft_putendl("ARROW_DOWN");
-		else if (!strcmp(cmd, "\033")) 		return (0);
-		else if (!strcmp(cmd, " ")) 		ft_putendl("SPACE");
+/*		if 		(!strcmp(cmd, "\033[C")) 	ft_putendl("ARROW_RIGHT"); */
+/*		else if (!strcmp(cmd, "\033[A")) 	ft_putendl("ARROW_UP"); */
+/*		else if (!strcmp(cmd, "\033[D")) 	ft_putendl("ARROW_LEFT"); */
+/*		else if (!strcmp(cmd, "\033[B")) 	ft_putendl("ARROW_DOWN"); */
+		if (!strcmp(cmd, "\033")) 		return (0);
+/*		else if (!strcmp(cmd, " ")) 		ft_putendl("SPACE"); */
 		ft_bzero(cmd, 8);
 	}
 	return (0);
-}
-
-int		init_arg(int argc, char **argv)
-{
-	int		i;
-	int		j;
-	t_arg	*args;
-	int		ret;
-
-	i = 1;
-	j = 0;
-	if (!(args = (t_arg *)malloc(sizeof(t_arg) * argc)))
-		return (ft_error_int("cannot allocate enough memory"));
-	while (i < argc)
-	{
-		args[j].value = argv[i];
-		i++;
-		j++;
-	}
-	args[j].value = 0;
-	ret = ft_loop(args);
-	free(args);
-	return(ret);
 }
 
 int		printc(int c)

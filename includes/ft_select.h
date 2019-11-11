@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:18:26 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/06 17:53:03 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/07 17:44:30 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <termcap.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/ioctl.h>
 
 /*
 ** 0x01 -- IS_SELECTED
@@ -33,5 +34,10 @@ typedef struct	s_arg
 	unsigned short	coord_y;
 	size_t			len;
 }					t_arg;
+
+int					ft_error_int(char *msg);
+int					printc(int c);
+int					ft_loop(t_arg *args);
+int					init_arg(int argc, char **argv);
 
 #endif
