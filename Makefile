@@ -1,5 +1,7 @@
 OBJS = srcs/main.o \
-	   srcs/arg.o
+	   srcs/arg.o \
+	   srcs/lists.o \
+	   srcs/ctl.o \
 
 FLAGS = -Wall -Wextra -Werror
 

@@ -22,7 +22,7 @@ int		ft_args_print(t_arg *args)
 		ft_putstr(args->value);
 		args->flags & 0x01 ? tputs(tgetstr("ue", NULL), 1, printc) : 0;
 		args->flags & 0x02 ? tputs(tgetstr("me", NULL), 1, printc) : 0;
-		args++;
+		args = args->next;
 	}
 	return (0);
 }
@@ -48,7 +48,7 @@ int		ft_coord_calc(t_arg *args)
 			args->coord_x = x;
 			args->coord_y = y;
 			y++;
-			args++;
+			args = args->next;
 		}
 		x += len_max + 1;
 	}
@@ -58,29 +58,29 @@ int		ft_coord_calc(t_arg *args)
 int		init_arg(int argc, char **argv)
 {
 	int		i;
-	int		j;
 	t_arg	*args;
+	t_arg	*last;
 	int		ret;
 
 	i = 1;
-	j = 0;
-	if (!(args = (t_arg *)malloc(sizeof(t_arg) * argc)))
+	if (!(args = arg_new()))
 		return (ft_error_int("cannot allocate enough memory"));
+	last = args;
 	while (i < argc)
 	{
-		args[j].flags = 0;
-		args[j].value = argv[i];
-		args[j].len = ft_strlen(argv[i]);
-		i++;
-		j++;
+		args->flags = 0;
+		args->value = argv[i];
+		args->len = ft_strlen(argv[i++]);
+		if (arg_add(&args, arg_new()))
+			return (ft_error_int("cannot allocate enough memory"));
 	}
-	args[j].value = 0;
-//	args[0].flags |= 0x01;
-//	args[1].flags |= 0x02;
-//	args[2].flags |= 0x03;
+	args->value = 0;
+	last->next = args;
+	args->prev = last;
+	args = args->next;
 	if (!ft_coord_calc(args)) /* TODO: Change! */
 		ft_args_print(args);
 	ret = ft_loop(args);
-	free(args);
+	lst_free(&args);
 	return(ret);
 }

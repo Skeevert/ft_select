@@ -10,13 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	arg_add(t_arg	**alst, t_arg new)
+#include "ft_select.h"
+
+int		arg_add(t_arg	**alst, t_arg *new)
 {
 	if (!alst || !new)
-		return ;
+		return (-1);
 	new->next = *alst;
-	*alst->prev = new;
+	(*alst)->prev = new;
 	*alst = new;
+	return (0);
 }
 
 t_arg	*arg_new(void)
@@ -33,8 +36,8 @@ void	lst_free(t_arg	**start)
 {
 	t_arg	*temp;
 
-	staar->prev->value = 0;
-	while (*start->value)
+	(*start)->prev->value = 0;
+	while ((*start)->value)
 	{
 		temp = *start;
 		*start = (*start)->next;
