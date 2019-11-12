@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:18:26 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/11 15:00:46 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/12 16:09:06 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/ioctl.h>
+# include <signal.h>
 
 /*
 ** 0x01 -- IS_SELECTED
@@ -42,11 +43,13 @@ int					printc(int c);
 int					ft_loop(t_arg *args);
 int					init_arg(int argc, char **argv);
 int					ft_args_print(t_arg *args);
+int					ft_coord_calc(t_arg *args);
 
 int					arg_add(t_arg	**alst, t_arg *new);
 t_arg				*arg_new(void);
 void				lst_free(t_arg	**start);
 
 void				keyctl(int key, t_arg *args);
+int					finish_sel(t_arg *args);
 
 #endif

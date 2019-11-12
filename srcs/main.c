@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:25:15 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/12 13:40:36 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/12 16:40:18 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,40 @@ int		ft_error_int(char *msg)
 	return (-1);
 }
 
+void	redraw(t_arg *args)
+{
+	static t_arg *saved = 0;
+
+	if (args)
+		saved = args;
+	if (saved)
+	{
+		tputs(tgetstr("cl", NULL), 1, printc);
+		if (!ft_coord_calc(saved))
+			ft_args_print(saved);
+		else
+			ft_error_int("window size too small. Resize window\n");
+	}
+}
+
+
+void	signal_handler(int sig)
+{
+	if (sig == SIGWINCH)
+	{
+		redraw(0);
+		signal(SIGWINCH, signal_handler);
+	}
+}
+
 int		ft_loop(t_arg *args)
 {
 	char	cmd[8];
 
 	ft_bzero(cmd, 8);
 	args->flags |= 0x01;
-	ft_args_print(args);
+	signal(SIGWINCH, signal_handler);
+	redraw(args);
 	while (read(0, cmd, 3))
 	{
 		if 		(!strcmp(cmd, "\033[C")) 	keyctl(0, args);
@@ -34,6 +61,7 @@ int		ft_loop(t_arg *args)
 		else if (!strcmp(cmd, "\033[B")) 	keyctl(3, args);
 		else if (!strcmp(cmd, "\033")) 		return (0);
 		else if (!strcmp(cmd, " ")) 		keyctl(4, args);
+		else if (!strcmp(cmd, "\n"))		return (finish_sel(args));
 		ft_bzero(cmd, 8);
 		tputs(tgetstr("cl", NULL), 1, printc);
 		ft_args_print(args);
@@ -43,7 +71,7 @@ int		ft_loop(t_arg *args)
 
 int		printc(int c)
 {
-	return (write(1, &c, 1));
+	return (write(0, &c, 1));
 }
 
 void	term_reconfig()
@@ -87,7 +115,7 @@ int		main(int argc, char **argv)
 {
 	int		tty;
 
-	tty = STDOUT_FILENO;
+	tty = STDIN_FILENO;
 	if (!isatty(tty))
 		return (ft_error_int("not a tty\n"));
 	term_init(argc, argv);
