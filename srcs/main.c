@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:25:15 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/12 16:40:18 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/12 18:57:33 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		ft_loop(t_arg *args)
 	args->flags |= 0x01;
 	signal(SIGWINCH, signal_handler);
 	redraw(args);
-	while (read(0, cmd, 3))
+	while (read(2, cmd, 3))
 	{
 		if 		(!strcmp(cmd, "\033[C")) 	keyctl(0, args);
 		else if (!strcmp(cmd, "\033[A")) 	keyctl(1, args);
@@ -71,18 +71,18 @@ int		ft_loop(t_arg *args)
 
 int		printc(int c)
 {
-	return (write(0, &c, 1));
+	return (write(2, &c, 1));
 }
 
 void	term_reconfig()
 {
 	struct termios	new;
 
-	tcgetattr(1, &new);
+	tcgetattr(2, &new);
 	new.c_lflag &= ~(ICANON | ECHO);
 	new.c_cc[VMIN] = 1;
 	new.c_cc[VTIME] = 0;
-	tcsetattr(1, TCSANOW, &new);
+	tcsetattr(2, TCSANOW, &new);
 }
 
 int		term_init(int argc, char **argv)
@@ -99,7 +99,7 @@ int		term_init(int argc, char **argv)
 		return (ft_error_int("cannot access termcap database\n"));
 	else if (success == 0)
 		return (ft_error_int("terminal type undefined\n"));
-	tcgetattr(1, &save);
+	tcgetattr(2, &save);
 	term_reconfig();
 	tputs(tgetstr("ti", NULL), 1, printc);
 	tputs(tgetstr("vi", NULL), 1, printc);
@@ -107,7 +107,7 @@ int		term_init(int argc, char **argv)
 	init_arg(argc, argv);
 	tputs(tgetstr("ve", NULL), 1, printc);
 	tputs(tgetstr("te", NULL), 1, printc);
-	tcsetattr(1, TCSANOW, &save);
+	tcsetattr(2, TCSANOW, &save);
 	return (0);
 }
 
@@ -115,9 +115,10 @@ int		main(int argc, char **argv)
 {
 	int		tty;
 
-	tty = STDIN_FILENO;
+	tty = STDERR_FILENO;
 	if (!isatty(tty))
 		return (ft_error_int("not a tty\n"));
 	term_init(argc, argv);
+	finish_sel(0);
 	return (0);
 }

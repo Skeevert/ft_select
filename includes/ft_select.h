@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:18:26 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/12 16:09:06 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/12 18:57:36 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # include <stdlib.h>
 # include <sys/ioctl.h>
 # include <signal.h>
+# include <fcntl.h>
+ 
+/* Not technically required, but needed on some UNIX distributions */
+# include <sys/types.h>
+# include <sys/stat.h>
+
 
 /*
 ** 0x01 -- IS_SELECTED

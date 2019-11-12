@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 13:47:47 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/12 14:42:55 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/12 19:03:03 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,26 @@
 
 int		finish_sel(t_arg *args)
 {
-	while (args->value)
+	static t_arg	*save = 0;
+	static t_arg	*s_start;
+	char			flag;
+
+	flag = 0;
+	if (args)
+		save = args;
+	else if (save)
 	{
-		if (args->flags & 0x02)
+		s_start = save;
+		while (save->value)
 		{
-			write(0, args->value, args->len);
-			args->next->value ? printc(' ') : 0;
+			if (save->flags & 0x02)
+			{
+				flag == 0 ? (flag = 1) : ft_putchar(' ');
+				write(1, save->value, save->len);
+			}
+			save = save->next;
 		}
-		args = args->next;
+		lst_free(&s_start);
 	}
 	return (0);
 }

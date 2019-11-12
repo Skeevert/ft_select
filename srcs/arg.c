@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 16:18:58 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/12 16:02:46 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/12 19:00:36 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		ft_args_print(t_arg *args)
 		tputs(tgoto(tgetstr("cm", NULL), args->coord_x, args->coord_y), 1, printc);
 		args->flags & 0x01 ? tputs(tgetstr("us", NULL), 1, printc) : 0;
 		args->flags & 0x02 ? tputs(tgetstr("mr", NULL), 1, printc) : 0;
-		ft_putstr(args->value);
+		write(2, args->value, ft_strlen(args->value));
 		args->flags & 0x01 ? tputs(tgetstr("ue", NULL), 1, printc) : 0;
 		args->flags & 0x02 ? tputs(tgetstr("me", NULL), 1, printc) : 0;
 		args = args->next;
@@ -81,6 +81,5 @@ int		init_arg(int argc, char **argv)
 	ft_coord_calc(args); /* TODO: Change! */
 //		ft_args_print(args);
 	ret = ft_loop(args);
-	lst_free(&args);
 	return(ret);
 }
