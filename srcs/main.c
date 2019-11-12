@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:25:15 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/07 17:10:31 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/12 13:40:36 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@ int		ft_loop(t_arg *args)
 	char	cmd[8];
 
 	ft_bzero(cmd, 8);
-	args->flags |= 0x02;
+	args->flags |= 0x01;
+	ft_args_print(args);
 	while (read(0, cmd, 3))
 	{
-		tputs(tgetstr("cl", NULL), 1, printc);
-		ft_args_print(args);
 		if 		(!strcmp(cmd, "\033[C")) 	keyctl(0, args);
 		else if (!strcmp(cmd, "\033[A")) 	keyctl(1, args);
 		else if (!strcmp(cmd, "\033[D")) 	keyctl(2, args);
@@ -36,6 +35,8 @@ int		ft_loop(t_arg *args)
 		else if (!strcmp(cmd, "\033")) 		return (0);
 		else if (!strcmp(cmd, " ")) 		keyctl(4, args);
 		ft_bzero(cmd, 8);
+		tputs(tgetstr("cl", NULL), 1, printc);
+		ft_args_print(args);
 	}
 	return (0);
 }
