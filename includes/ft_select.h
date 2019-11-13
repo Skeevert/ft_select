@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:18:26 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/13 15:05:58 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/13 15:49:22 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void				lst_free(t_arg	**start);
 void				keyctl(int key, t_arg *args);
 int					finish_sel(t_arg *args);
 t_arg				*keydel(t_arg *args);
+t_arg				*keyback(t_arg *args);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:25:15 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/13 15:05:59 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/13 16:11:12 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int		ft_loop(t_arg *args)
 		else if (!strcmp(cmd, " ")) 		keyctl(4, args);
 		else if (!strcmp(cmd, "\n"))		return (finish_sel(args));
 		else if (!strcmp(cmd, "\033[3~"))	args = keydel(args);
+		else if (cmd[0] == 127)				args = keyback(args);
 		if		(!args)						return (0);
 		ft_bzero(cmd, 8);
 		tputs(tgetstr("cl", NULL), 1, printc);

@@ -6,11 +6,33 @@
 /*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 13:47:47 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/13 15:08:30 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/13 16:21:04 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
+
+t_arg	*keyback(t_arg *args)
+{
+	t_arg	*to_del;
+
+	while (!(args->flags & 0x01) || !(args->value))
+		args = args->next;
+	to_del = args->prev->value ? args->prev : args->prev->prev;
+	if (to_del == args)
+	{
+		free(to_del->next);
+		free(to_del);
+		return (0);
+	}
+	to_del->prev->next = to_del->next;
+	to_del->next->prev = to_del->prev;
+	free(to_del);
+	while (args->prev->value)
+		args = args->next;
+	ft_coord_calc(args);
+	return (args);
+}
 
 t_arg	*keydel(t_arg *args)
 {
