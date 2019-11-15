@@ -6,7 +6,7 @@
 /*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:18:26 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/15 15:26:22 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/15 16:07:28 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct		s_arg
 
 int					putcap(char *cap);
 int					ft_error_int(char *msg);
-void				redraw(t_arg *args);
+void				redraw(t_arg *args, int *w_state);
 void				signal_handler(int sig);
 int					printc(int c);
 

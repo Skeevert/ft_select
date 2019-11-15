@@ -6,7 +6,7 @@
 /*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:25:15 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/15 15:19:59 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/15 16:13:20 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,25 @@ static t_arg	*input_parse(t_arg *args, char *cmd)
 
 int				ft_loop(t_arg *args)
 {
-	char	cmd[8];
+	char			cmd[8];
+	int				w_state;
 
 	ft_bzero(cmd, 8);
 	args->flags |= 0x01;
 	signal(SIGWINCH, signal_handler);
-	redraw(args);
+	w_state = 0;
+	redraw(args, &w_state);
 	while (read(2, cmd, 4))
 	{
-		args = input_parse(args, cmd);
-		if (!args)
-			return (0);
-		ft_bzero(cmd, 8);
-		putcap("cl");
-		ft_args_print(args);
+		if (!w_state)
+		{
+			args = input_parse(args, cmd);
+			if (!args)
+				return (0);
+			ft_bzero(cmd, 8);
+			putcap("cl");
+			ft_args_print(args);
+		}
 	}
 	return (0);
 }
