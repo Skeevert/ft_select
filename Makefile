@@ -1,12 +1,13 @@
-OBJS = srcs/main.o \
-	   srcs/arg.o \
-	   srcs/lists.o \
-	   srcs/ctl.o \
+OBJS =		srcs/main.o \
+			srcs/arg.o \
+			srcs/lists.o \
+			srcs/utils.o \
+			srcs/key_arrows_select.o \
+			srcs/key_del_back.o
 
-FLAGS = -Wall -Wextra -Werror
-
-LIB_NAME = srcs/libft/libft.a
-NAME = ft_select
+FLAGS =		-Wall -Wextra -Werror
+LIB_NAME =	srcs/libft/libft.a
+NAME =		ft_select
 
 all: $(NAME)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hshawand <[hshawand@student.42.fr]>        +#+  +:+       +#+        */
+/*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 16:18:58 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/12 19:00:36 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/15 15:22:50 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 int		ft_args_print(t_arg *args)
 {
+	char	buff[16];
+	char	*ptr;
+
+	ptr = buff;
 	while (args->value)
 	{
-		tputs(tgoto(tgetstr("cm", NULL), args->coord_x, args->coord_y), 1, printc);
-		args->flags & 0x01 ? tputs(tgetstr("us", NULL), 1, printc) : 0;
-		args->flags & 0x02 ? tputs(tgetstr("mr", NULL), 1, printc) : 0;
+		tputs(tgoto(tgetstr("cm", &ptr), args->coord_x, args->coord_y),
+			1, printc);
+		ptr = buff;
+		args->flags & 0x01 ? putcap("us") : 0;
+		args->flags & 0x02 ? putcap("mr") : 0;
 		write(2, args->value, ft_strlen(args->value));
-		args->flags & 0x01 ? tputs(tgetstr("ue", NULL), 1, printc) : 0;
-		args->flags & 0x02 ? tputs(tgetstr("me", NULL), 1, printc) : 0;
+		args->flags & 0x01 ? putcap("ue") : 0;
+		args->flags & 0x02 ? putcap("me") : 0;
 		args = args->next;
 	}
 	return (0);
@@ -35,14 +41,15 @@ int		ft_coord_calc(t_arg *args)
 	unsigned short	y;
 
 	len_max = 0;
-	ioctl(0, TIOCGWINSZ, &win); /* Add error */
+	if (ioctl(0, TIOCGWINSZ, &win) == -1)
+		return (ft_error_int("cannot get window size\n"));
 	x = 0;
 	while (args->value)
 	{
 		y = 0;
 		while (args->value && y < win.ws_row)
 		{
-			if (x + args->len  > win.ws_col)
+			if (x + args->len > win.ws_col)
 				return (-1);
 			args->len > len_max ? (len_max = args->len) : 0;
 			args->coord_x = x;
@@ -78,8 +85,6 @@ int		init_arg(int argc, char **argv)
 	last->next = args;
 	args->prev = last;
 	args = args->next;
-	ft_coord_calc(args); /* TODO: Change! */
-//		ft_args_print(args);
 	ret = ft_loop(args);
-	return(ret);
+	return (ret);
 }
