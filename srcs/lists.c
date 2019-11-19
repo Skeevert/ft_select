@@ -6,7 +6,7 @@
 /*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 14:51:49 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/15 15:19:27 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/19 13:14:28 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,20 @@ t_arg	*arg_new(void)
 
 void	lst_free(t_arg **start)
 {
-	t_arg	*temp;
+	static t_arg	*save;
+	t_arg			*temp;
 
-	(*start)->prev->value = 0;
-	while ((*start)->value)
+	if (start)
+		save = *start;
+	else
 	{
-		temp = *start;
-		*start = (*start)->next;
-		free(temp);
+		(save)->prev->value = 0;
+		while ((save)->value)
+		{
+			temp = save;
+			save = (save)->next;
+			free(temp);
+		}
+		free(save);
 	}
-	free(*start);
 }

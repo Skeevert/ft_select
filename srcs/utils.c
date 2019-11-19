@@ -6,7 +6,7 @@
 /*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 14:27:31 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/15 16:11:59 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/19 13:16:07 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,6 @@ void	redraw(t_arg *args, int *w_state)
 			ft_error_int("window size too small. Resize window\n");
 			*state = 1;
 		}
-	}
-}
-
-void	signal_handler(int sig)
-{
-	if (sig == SIGWINCH)
-	{
-		redraw(0, 0);
-		signal(SIGWINCH, signal_handler);
 	}
 }
 

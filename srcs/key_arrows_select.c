@@ -6,7 +6,7 @@
 /*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 13:47:47 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/15 14:42:05 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/19 13:15:31 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int			finish_sel(t_arg *args)
 			}
 			save = save->next;
 		}
-		lst_free(&s_start);
+		lst_free(0);
 	}
 	return (0);
 }

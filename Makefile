@@ -3,7 +3,8 @@ OBJS =		srcs/main.o \
 			srcs/lists.o \
 			srcs/utils.o \
 			srcs/key_arrows_select.o \
-			srcs/key_del_back.o
+			srcs/key_del_back.o \
+			srcs/signals.o
 
 FLAGS =		-Wall -Wextra -Werror
 LIB_NAME =	srcs/libft/libft.a

@@ -6,7 +6,7 @@
 /*   By: hshawand <hshawand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 13:25:15 by hshawand          #+#    #+#             */
-/*   Updated: 2019/11/15 16:13:20 by hshawand         ###   ########.fr       */
+/*   Updated: 2019/11/19 14:52:28 by hshawand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int				ft_loop(t_arg *args)
 
 	ft_bzero(cmd, 8);
 	args->flags |= 0x01;
-	signal(SIGWINCH, signal_handler);
+	lst_free(&args);
+	signal_catch();
 	w_state = 0;
 	redraw(args, &w_state);
 	while (read(2, cmd, 4))
@@ -63,15 +64,22 @@ int				ft_loop(t_arg *args)
 	return (0);
 }
 
-static void		term_reconfig(void)
+void			term_reconfig(int mode)
 {
-	struct termios	new;
+	struct termios			new;
+	static struct termios	save;
 
-	tcgetattr(2, &new);
-	new.c_lflag &= ~(ICANON | ECHO);
-	new.c_cc[VMIN] = 1;
-	new.c_cc[VTIME] = 0;
-	tcsetattr(2, TCSANOW, &new);
+	if (mode)
+	{
+		tcgetattr(2, &new);
+		tcgetattr(2, &save);
+		new.c_lflag &= ~(ICANON | ECHO);
+		new.c_cc[VMIN] = 1;
+		new.c_cc[VTIME] = 0;
+		tcsetattr(2, TCSANOW, &new);
+	}
+	else
+		tcsetattr(2, TCSANOW, &save);
 }
 
 static int		term_init(int argc, char **argv)
@@ -79,7 +87,6 @@ static int		term_init(int argc, char **argv)
 	char			*termtype;
 	char			term_buffer[2048];
 	int				success;
-	struct termios	save;
 
 	if (!(termtype = getenv("TERM")))
 		return (ft_error_int("cannot find TERM variable\n"));
@@ -88,14 +95,13 @@ static int		term_init(int argc, char **argv)
 		return (ft_error_int("cannot access termcap database\n"));
 	else if (success == 0)
 		return (ft_error_int("terminal type undefined\n"));
-	tcgetattr(2, &save);
-	term_reconfig();
+	term_reconfig(1);
 	putcap("ti");
 	putcap("vi");
 	init_arg(argc, argv);
 	putcap("ve");
 	putcap("te");
-	tcsetattr(2, TCSANOW, &save);
+	term_reconfig(0);
 	return (0);
 }
 
